@@ -1,0 +1,40 @@
+<ion-view title="video-sample" ng-controller="VideoSampleController">
+	<div class="bar bar-header bar-stable">
+		<div class="h1 title">Video Sample</div>
+        <button ng-click="$parent.backToLast('home')" class="button button-clear">
+            Cancel
+        </button>
+	</div>
+	<ion-content padding="false" class="has-header newpost-wrap">
+
+        <div class="media-preview" ng-if="attachment.media != null">
+            <audio ng-if="attachment.mediaType == 'audio'" src="{{attachment.mediaFullpath}}" controls="controls"></audio>
+            <div ng-if="attachment.mediaType == 'video'" class="video-container">
+                <img src="{{selectedVideoThumbnailSrc}}">
+                <div class="controls">
+                    <div class="play ion-play" ng-click="attachment.action = 'play-video'"></div>
+                    <div class="range range-positive">
+                        <input type="range" min="0" max="{{videoThumbnailFramesLastIndex}}" ng-value="thumbnailIndex" ng-model="thumbnailIndex" ng-change="selectedThumbnailChanged(thumbnailIndex)" >
+                    </div>
+                    <div class="ion-help-circled get-info" ng-click="toggleThumbnailSelectorTooltip()"></div>
+                </div>
+                <html5-video src="{{attachment.mediaFullpath}}" controls="controls"></html5-video>
+
+            </div>
+            <img ng-if="attachment.mediaType == 'photo'" src="{{attachment.mediaFullpath}}"/>
+        </div>
+
+        <div class="button-bar">
+            <button ng-show="attachment.media == null" ng-click="contentState = 'flipped'" class="button button-block button-positive">
+                Add Media
+            </button>
+            <button ng-show="attachment.media != null" ng-click="attachment.mediaType = ''; attachment.media = null;" class="button button-block button-positive">
+                Remove Media
+            </button>
+            <button class="button button-block button-positive" ng-class="sendButtonClass" ng-click="sendPost()">Send</button>
+        </div>
+        <div class="media-selector">
+            <button class="button button-block button-positive" ng-click="contentState = ''; captureVideo();">Take Video</button>
+        </div>
+	</ion-content>
+</ion-view>
